@@ -16,7 +16,22 @@ public class PlayerMovement : MonoBehaviour
         if (grounded)
         {
             // We are grounded, so recalculate movedirection directly from axes
-            moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, 0);
+            float direction = Input.GetAxis("Horizontal");
+            if (direction < 0.0)
+            {
+                transform.rotation = Quaternion.Euler(0, 270, 0);
+                moveDirection = new Vector3(0, 0, -direction);
+            }
+            else if (direction > 0.0)
+            {
+                transform.rotation = Quaternion.Euler(0, 90, 0);
+                moveDirection = new Vector3(0, 0, direction);
+            }
+            else
+            {
+                moveDirection = new Vector3(0, 0, 0);
+            }
+
             moveDirection = transform.TransformDirection(moveDirection);
             moveDirection *= speed;
 
