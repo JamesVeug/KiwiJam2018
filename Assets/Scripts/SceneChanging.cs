@@ -119,7 +119,6 @@ public class SceneChanging : MonoBehaviour {
             VariableKeeper.menuState = VariableKeeper.menuState + 1;
         }
         Debug.Log("The menu is "+VariableKeeper.menuState);
-        SceneManager.LoadScene(VariableKeeper.levelMenu);
     }
     
     //load main menu
@@ -127,7 +126,6 @@ public class SceneChanging : MonoBehaviour {
     {
         MenuMusicGenerator.Stop();
         VariableKeeper.menuState = 0;
-        SceneManager.LoadScene(VariableKeeper.levelMenu);
     }
 
     //load first level
@@ -151,7 +149,6 @@ public class SceneChanging : MonoBehaviour {
     {
         MenuMusicGenerator.Stop();
         VariableKeeper.menuState = 1;
-        SceneManager.LoadScene(VariableKeeper.levelMenu);
     }
 
     //lose game
@@ -159,7 +156,6 @@ public class SceneChanging : MonoBehaviour {
     {
         MenuMusicGenerator.Stop();
         VariableKeeper.menuState = 2;
-        SceneManager.LoadScene(VariableKeeper.levelMenu);
     }
 
     //quit game
