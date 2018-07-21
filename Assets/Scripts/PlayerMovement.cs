@@ -11,6 +11,8 @@ public class PlayerMovement : MonoBehaviour
 
     private bool movingOnLadder = false;
     private Ladder attachedLadder = null;
+    private IUsable attachedUsable = null;
+
     private Vector3 moveDirection = Vector3.zero;
     private bool grounded = false;
 
@@ -23,6 +25,13 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
+        // use
+        if ((Input.GetButtonDown("Submit") || Input.GetButtonDown("Fire1")) && attachedUsable != null)
+        {
+            attachedUsable.Use(this);
+        }
+
+        // Movement
         Vector2 axis = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
 
         if (movingOnLadder)
@@ -43,6 +52,7 @@ public class PlayerMovement : MonoBehaviour
         {
             movingOnLadder = true;
 
+            transform.rotation = Quaternion.Euler(0, 0, 0);
             Vector3 newPosition = ClosestPointOnLine(attachedLadder.BottomClimbPoint.position, attachedLadder.TopClimbPoint.position, transform.position);
             newPosition.y = transform.position.y;
             newPosition.z = transform.position.z;
@@ -138,6 +148,36 @@ public class PlayerMovement : MonoBehaviour
 
         attachedLadder = ladder;
         moveDirection = Vector3.zero;
+    }
+
+    public void AttachUsable(Collider collider)
+    {
+        if (attachedUsable != null)
+        {
+            return;
+        }
+
+        IUsable[] usable = collider.GetComponentsInParent<IUsable>();
+        if (usable == null)
+        {
+            return;
+        }
+
+        attachedUsable = usable[0];
+    }
+
+    public void DetachUsalbe(Collider collider)
+    {
+        IUsable[] usable = collider.GetComponentsInParent<IUsable>();
+        if (usable == null)
+        {
+            return;
+        }
+
+        if (attachedUsable == usable[0])
+        {
+            attachedUsable = null;
+        }
     }
 
     private Vector3 ClosestPointOnLine(Vector3 vA, Vector3 vB, Vector3 vPoint)
