@@ -21,6 +21,8 @@ public class Human : MonoBehaviour, IUsable
     private bool movementEnabled = true;
     private PlayerMovement playerToFollow;
 
+    public PushableZone PushableSection = null;
+
     void FixedUpdate()
     {
         if (!movementEnabled)
@@ -60,8 +62,7 @@ public class Human : MonoBehaviour, IUsable
 
     public void TogglePhysics(bool active)
     {
-        rigidBody.detectCollisions = active;
-        rigidBody.isKinematic = !active;
+        rigidBody.useGravity = !active;
     }
 
     public void ToggleAI(bool active)
@@ -89,6 +90,17 @@ public class Human : MonoBehaviour, IUsable
         else
         {
             FollowPlayer(player);
+        }
+    }
+
+    public void Push()
+    {
+        if (PushableSection != null)
+        {
+            ToggleAI(false);
+            TogglePhysics(false);
+            StartCoroutine(PushableSection.PlayPushAnimation(transform));
+            PushableSection = null;
         }
     }
 }

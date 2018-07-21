@@ -16,11 +16,13 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 moveDirection = Vector3.zero;
     private bool grounded = false;
 
+    private Animator animator;
     private CharacterController characterController;
 
     private void Awake()
     {
         characterController = GetComponent<CharacterController>();
+        animator = GetComponentInChildren<Animator>();
     }
 
     void FixedUpdate()
@@ -40,6 +42,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 movingOnLadder = false;
                 MoveHorizontally(axis * jumpSpeed);
+                animator.SetBool("Climbing", false);
             }
             else
             {
@@ -51,6 +54,7 @@ public class PlayerMovement : MonoBehaviour
         else if(attachedLadder != null && axis.y != 0.0 && axis.x == 0.0)
         {
             movingOnLadder = true;
+            animator.SetBool("Climbing", true);
 
             transform.rotation = Quaternion.Euler(0, 0, 0);
             Vector3 newPosition = ClosestPointOnLine(attachedLadder.BottomClimbPoint.position, attachedLadder.TopClimbPoint.position, transform.position);
@@ -63,14 +67,19 @@ public class PlayerMovement : MonoBehaviour
 
         if (!movingOnLadder)
         {
+            animator.SetBool("Grounded", grounded);
             if (grounded)
             {
                 // We are grounded, so recalculate movedirection directly from axes
                 MoveHorizontally(axis);
+                animator.SetTrigger("Grounded");
 
                 // Jump
                 if (Input.GetButton("Jump"))
+                {
+                    animator.SetTrigger("Jump");
                     moveDirection.y = jumpSpeed;
+                }
             }
 
             // Apply gravity
@@ -79,6 +88,11 @@ public class PlayerMovement : MonoBehaviour
             // Move the controller
             MoveInDirection(moveDirection);
         }
+
+        animator.SetBool("Walking", grounded && axis.x != 0.0);
+
+        float moveSpeed = Mathf.Abs(characterController.velocity.y) / speed;
+        animator.SetFloat("ClimbSpeed", moveSpeed);
     }
 
     private void MoveHorizontally(Vector3 axis)
