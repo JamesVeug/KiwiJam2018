@@ -47,7 +47,23 @@ public class SceneChanging : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
+        
+        if (Input.GetButtonDown("Start"))
+        {
+            StartGame();
+        }
+        else if (Input.GetButtonDown("Continue"))
+        {
+            ContinueGame();
+        }
+        else if (Input.GetButtonDown("Stop"))
+        {
+            QuitGame();
+        }
+        else if (Input.GetButtonDown("Debug"))
+        {
+            MenuChanger();
+        }
 	}
 
     //Debug to change menu
