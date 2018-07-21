@@ -15,12 +15,17 @@ public class TriggerZone : MonoBehaviour
     public bool TriggeredByHumans = false;
 
     public TriggerEvent OnEnter;
+    public TriggerEvent OnExit;
 
 
     private void OnDrawGizmos()
     {
         Gizmos.color = color;
-        Gizmos.DrawCube(transform.position, transform.localScale);
+        Collider collider = GetComponent<Collider>();
+        if (collider is BoxCollider)
+        {
+            Gizmos.DrawCube(collider.bounds.center, collider.bounds.size);
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -30,6 +35,16 @@ public class TriggerZone : MonoBehaviour
             TriggeredByHumans && triggerTag == Tags.Human)
         {
             OnEnter.Invoke(other);
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        string triggerTag = other.gameObject.tag;
+        if (TriggeredByPlayer && triggerTag == Tags.Player ||
+            TriggeredByHumans && triggerTag == Tags.Human)
+        {
+            OnExit.Invoke(other);
         }
     }
 }
