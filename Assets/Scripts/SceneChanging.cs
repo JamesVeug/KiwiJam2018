@@ -11,17 +11,62 @@ public class SceneChanging : MonoBehaviour {
     public GameObject PanelMainMenu;
     public GameObject PanelWinMenu;
     public GameObject PanelLoseMenu;
+    public GameObject PanelGameMenu;
+    public GameObject PanelButtons;
     private AudioSource MenuMusicGenerator;
+    private Scene ActiveScene;
 	
 	// Use this for initialization
 	void Start () {
+        DontDestroyOnLoad(gameObject);
+        MenuPanelController();//turn panels on/off correctly
 
-        if(VariableKeeper.menuState == 0)
+    }
+
+	// Update is called once per frame
+	void Update () {
+
+        //If the scene changed, activate the appropriate menus
+        ActiveScene = SceneManager.GetActiveScene();
+        if (ActiveScene.buildIndex != VariableKeeper.lastSceneNumber)
+        {
+            MenuPanelController();//turn panels on/off correctly
+            VariableKeeper.lastSceneNumber = ActiveScene.buildIndex;
+        }
+
+        //main menu buttons to navigate scenes
+        if (VariableKeeper.menuState != 3)
+        {
+            if (Input.GetButtonDown("Continue"))
+            {
+                ContinueGame();
+            }
+            else if (Input.GetButtonDown("Debug"))
+            {
+                MenuChanger();
+            }
+            else if (Input.GetButtonDown("Start"))
+            {
+                StartGame();
+            }
+            else if (Input.GetButtonDown("Stop"))
+            {
+                QuitGame();
+            }
+        }
+    }
+
+    //which menu should be active at any time
+    public void MenuPanelController()
+    {
+        if (VariableKeeper.menuState == 0)
         {
             Debug.Log("Main Menu");
             PanelMainMenu.SetActive(true);
             PanelWinMenu.SetActive(false);
             PanelLoseMenu.SetActive(false);
+            PanelGameMenu.SetActive(false);
+            PanelButtons.SetActive(true);
             MenuMusicGenerator = MainMenuMusic.GetComponent<AudioSource>();
             MenuMusicGenerator.Play();
         }
@@ -31,6 +76,8 @@ public class SceneChanging : MonoBehaviour {
             PanelMainMenu.SetActive(false);
             PanelWinMenu.SetActive(true);
             PanelLoseMenu.SetActive(false);
+            PanelGameMenu.SetActive(false);
+            PanelButtons.SetActive(true);
             MenuMusicGenerator = WinMenuMusic.GetComponent<AudioSource>();
             MenuMusicGenerator.Play();
         }
@@ -40,21 +87,30 @@ public class SceneChanging : MonoBehaviour {
             PanelMainMenu.SetActive(false);
             PanelWinMenu.SetActive(false);
             PanelLoseMenu.SetActive(true);
+            PanelGameMenu.SetActive(false);
+            PanelButtons.SetActive(true);
             MenuMusicGenerator = LoseMenuMusic.GetComponent<AudioSource>();
             MenuMusicGenerator.Play();
         }
-	}
-	
-	// Update is called once per frame
-	void Update () {
+        else if (VariableKeeper.menuState == 3)
+        {
+            Debug.Log("Game Menu");
+            PanelMainMenu.SetActive(false);
+            PanelWinMenu.SetActive(false);
+            PanelLoseMenu.SetActive(false);
+            PanelGameMenu.SetActive(true);
+            PanelButtons.SetActive(false);
+            //MenuMusicGenerator = LoseMenuMusic.GetComponent<AudioSource>();
+            //MenuMusicGenerator.Play();
+        }
+    }
 
-	}
 
     //Debug to change menu
     public void MenuChanger()
     {
         Debug.Log("The menu was " + VariableKeeper.menuState);
-        if (VariableKeeper.menuState == 2)
+        if (VariableKeeper.menuState >= 2)
         {
             VariableKeeper.menuState = 0;
         }
@@ -65,11 +121,20 @@ public class SceneChanging : MonoBehaviour {
         Debug.Log("The menu is "+VariableKeeper.menuState);
         SceneManager.LoadScene(VariableKeeper.levelMenu);
     }
+    
+    //load main menu
+    public void ReturnToMenu()
+    {
+        MenuMusicGenerator.Stop();
+        VariableKeeper.menuState = 0;
+        SceneManager.LoadScene(VariableKeeper.levelMenu);
+    }
 
-    //load first scene
+    //load first level
     public void StartGame()
     {
         MenuMusicGenerator.Stop();
+        VariableKeeper.menuState = 3;
         SceneManager.LoadScene(VariableKeeper.levelStart);
     }
     
@@ -77,12 +142,23 @@ public class SceneChanging : MonoBehaviour {
     public void ContinueGame()
 	{
         MenuMusicGenerator.Stop();
-		SceneManager.LoadScene(VariableKeeper.levelProgression);
+        VariableKeeper.menuState = 3;
+        SceneManager.LoadScene(VariableKeeper.levelProgression);
 	}
 
-    public void ReturnToMenu()
+    //win game
+    public void WinGame()
     {
         MenuMusicGenerator.Stop();
+        VariableKeeper.menuState = 1;
+        SceneManager.LoadScene(VariableKeeper.levelMenu);
+    }
+
+    //lose game
+    public void LoseGame()
+    {
+        MenuMusicGenerator.Stop();
+        VariableKeeper.menuState = 2;
         SceneManager.LoadScene(VariableKeeper.levelMenu);
     }
 
