@@ -33,6 +33,7 @@ public class Human : MonoBehaviour, IUsable
         if (grounded && playerToFollow != null)
         {
             // We are grounded, so recalculate movedirection directly from axes
+            FacePlayer();
             moveDirection = GetFollowPlayerDirection();
             moveDirection = transform.TransformDirection(moveDirection);
             moveDirection *= speed;
@@ -46,6 +47,24 @@ public class Human : MonoBehaviour, IUsable
         grounded = (flags &= CollisionFlags.CollidedBelow) != 0;
     }
 
+    private void FacePlayer()
+    {
+        if (playerToFollow == null)
+        {
+            return;
+        }
+
+        if (playerToFollow.transform.position.x < transform.position.x)
+        {
+            transform.rotation = Quaternion.Euler(0, 0, 0);
+        }
+        else if (playerToFollow.transform.position.x > transform.position.x)
+        {
+            transform.rotation = Quaternion.Euler(0, 180, 0);
+        }
+
+    }
+
     private Vector3 GetFollowPlayerDirection()
     {
         Vector3 angle = playerToFollow.transform.position - transform.position;
@@ -57,6 +76,12 @@ public class Human : MonoBehaviour, IUsable
 
         angle.y = 0;
         angle.z = 0;
+
+        if (playerToFollow.transform.position.x > transform.position.x)
+        {
+            angle.x *= -1;
+        }
+
         return angle.normalized;
     }
 

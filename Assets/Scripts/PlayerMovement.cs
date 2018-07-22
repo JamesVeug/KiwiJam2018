@@ -75,7 +75,7 @@ public class PlayerMovement : MonoBehaviour
                 animator.SetTrigger("Grounded");
 
                 // Jump
-                if (Input.GetButton("Jump"))
+                if (Input.GetButtonDown("Jump"))
                 {
                     animator.SetTrigger("Jump");
                     moveDirection.y = jumpSpeed;
