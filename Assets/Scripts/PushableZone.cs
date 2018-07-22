@@ -9,25 +9,19 @@ public class PushableZone : MonoBehaviour
     public Animator FallAnimation;
     public Transform AttachTransform;
 
-    /*private void Update()
-    {
-        if (Input.GetButtonDown("Cancel"))
-        {
-            Human human = GameObject.Find("Human").GetComponent<Human>();
-            human.PushableSection = this;
-            human.Push();
-        }
-    }*/
-
     public void OnHumanEntered(Collider collider)
     {
         Human[] humans = collider.GetComponentsInParent<Human>();
+
+        FallAnimation = humans[0].GetComponentInChildren<Animator>();
         humans[0].PushableSection = this;
     }
 
     public void OnHumanExited(Collider collider)
     {
         Human[] humans = collider.GetComponentsInParent<Human>();
+
+        FallAnimation = null;
         humans[0].PushableSection = this;
     }
 
