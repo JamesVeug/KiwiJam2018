@@ -6,6 +6,12 @@ public class Tesla : MonoBehaviour
 {
     public TriggerZone TriggerZone;
     public Transform SnapHumanPosition;
+    public LineRenderer Lightening;
+
+    private void Awake()
+    {
+        Lightening.enabled = false;
+    }
 
     public void OnTriggered(Collider collider)
     {
@@ -15,5 +21,6 @@ public class Tesla : MonoBehaviour
         human.TogglePhysics(false);
         human.transform.position = SnapHumanPosition.position;
         human.animator.SetBool("IsBeingElectricuted", true);
+        Lightening.enabled = true;
     }
 }
