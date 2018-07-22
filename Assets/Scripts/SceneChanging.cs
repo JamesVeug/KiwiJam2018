@@ -19,9 +19,6 @@ public class SceneChanging : MonoBehaviour {
         }
     }
 
-    public GameObject menuCamera;
-    public Canvas canvas;
-
     private AudioSource[] allAudioSources;
 
     public GameObject PanelMainMenu;
@@ -237,10 +234,6 @@ public class SceneChanging : MonoBehaviour {
     //which menu should be active at any time
     public void MenuPanelController()
     {
-        canvas.worldCamera = Camera.main;
-
-            //GameObject.FindWithWithTag("MainCamera").GetComponent<Camera>();
-
         if (VariableKeeper.menuState == 0) // Main menu
         {
             //Debug.Log("Main Menu");
@@ -252,7 +245,6 @@ public class SceneChanging : MonoBehaviour {
             MainMenuMusicPlayer.Play();
             PlayerMovement.MovementEnabled = false;
 
-            menuCamera.gameObject.SetActive(true);
             menuCharacters.gameObject.SetActive(true);
             manMenuAnimator.SetTrigger("IntroAndWin");
             girlMenuAnimator.SetTrigger("IntroAndWin");
@@ -268,7 +260,6 @@ public class SceneChanging : MonoBehaviour {
             WinMenuMusicPlayer.Play();
             PlayerMovement.MovementEnabled = false;
 
-            menuCamera.gameObject.SetActive(true);
             menuCharacters.gameObject.SetActive(true);
             manMenuAnimator.SetTrigger("Lose");
             girlMenuAnimator.SetTrigger("IntroAndWin");
@@ -284,15 +275,12 @@ public class SceneChanging : MonoBehaviour {
             LoseMenuMusicPlayer.Play();
             PlayerMovement.MovementEnabled = false;
 
-            menuCamera.gameObject.SetActive(true);
             menuCharacters.gameObject.SetActive(true);
             manMenuAnimator.SetTrigger("IntroAndWin");
             girlMenuAnimator.SetTrigger("Lose");
         }
         else if (VariableKeeper.menuState == 3)  // In game
         {
-            menuCamera.gameObject.SetActive(false);
-
             //Debug.Log("Game Menu");
             PanelMainMenu.SetActive(false);
             PanelWinMenu.SetActive(false);
@@ -307,7 +295,6 @@ public class SceneChanging : MonoBehaviour {
                 Level2MusicPlayer.Play();
             }
             PlayerMovement.MovementEnabled = true;
-
 
             menuCharacters.gameObject.SetActive(false);
         }
