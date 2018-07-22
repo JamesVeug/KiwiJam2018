@@ -53,7 +53,12 @@ public class SceneChanging : MonoBehaviour {
     public GameObject girlLaughSFX;
     private AudioSource[] girlLaugh;
     private int girlLaughTotal;
-
+    public GameObject girlWantSFX;
+    private AudioSource[] girlWant;
+    private int girlWantTotal;
+    public GameObject girlWinSFX;
+    private AudioSource[] girlWin;
+    private int girlWinTotal;
 
     // Use this for initialization
     void Start () {
@@ -110,6 +115,22 @@ public class SceneChanging : MonoBehaviour {
         girlJumpTotal = girlJump.Length;
         girlLaugh = girlLaughSFX.GetComponentsInChildren<AudioSource>();
         girlLaughTotal = girlLaugh.Length;
+        girlWant = girlWantSFX.GetComponentsInChildren<AudioSource>();
+        girlWantTotal = girlWant.Length;
+        girlWin = girlWinSFX.GetComponentsInChildren<AudioSource>();
+        girlWinTotal = girlWin.Length;
+    }
+
+    public void PlaySFXGirlWant()
+    {
+        int random = Random.Range(0, girlWantTotal);
+        girlWant[random].Play();
+    }
+
+    public void PlaySFXGirlWin()
+    {
+        int random = Random.Range(0, girlWinTotal);
+        girlWin[random].Play();
     }
 
     public void PlaySFXGirlJump()
