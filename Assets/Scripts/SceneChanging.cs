@@ -68,6 +68,10 @@ public class SceneChanging : MonoBehaviour {
     private AudioSource[] girlWin;
     private int girlWinTotal;
 
+    public GameObject menuCharacters;
+    public Animator manMenuAnimator;
+    public Animator girlMenuAnimator;
+
     // Use this for initialization
     void Start () {
         DontDestroyOnLoad(gameObject);//Menu Manager lives forever
@@ -230,7 +234,7 @@ public class SceneChanging : MonoBehaviour {
     //which menu should be active at any time
     public void MenuPanelController()
     {
-        if (VariableKeeper.menuState == 0)
+        if (VariableKeeper.menuState == 0) // Main menu
         {
             //Debug.Log("Main Menu");
             PanelMainMenu.SetActive(true);
@@ -240,8 +244,12 @@ public class SceneChanging : MonoBehaviour {
             PanelButtons.SetActive(true);
             MainMenuMusicPlayer.Play();
             PlayerMovement.MovementEnabled = false;
+
+            menuCharacters.gameObject.SetActive(true);
+            manMenuAnimator.SetTrigger("IntroAndWin");
+            girlMenuAnimator.SetTrigger("IntroAndWin");
         }
-        else if (VariableKeeper.menuState == 1)
+        else if (VariableKeeper.menuState == 1) // Win
         {
             //Debug.Log("Win Menu");
             PanelMainMenu.SetActive(false);
@@ -251,8 +259,12 @@ public class SceneChanging : MonoBehaviour {
             PanelButtons.SetActive(true);
             WinMenuMusicPlayer.Play();
             PlayerMovement.MovementEnabled = false;
+
+            menuCharacters.gameObject.SetActive(true);
+            manMenuAnimator.SetTrigger("Lose");
+            girlMenuAnimator.SetTrigger("IntroAndWin");
         }
-        else if (VariableKeeper.menuState == 2)
+        else if (VariableKeeper.menuState == 2) // Lose
         {
             //Debug.Log("Lose Menu");
             PanelMainMenu.SetActive(false);
@@ -262,8 +274,12 @@ public class SceneChanging : MonoBehaviour {
             PanelButtons.SetActive(true);
             LoseMenuMusicPlayer.Play();
             PlayerMovement.MovementEnabled = false;
+
+            menuCharacters.gameObject.SetActive(true);
+            manMenuAnimator.SetTrigger("IntroAndWin");
+            girlMenuAnimator.SetTrigger("Lose");
         }
-        else if (VariableKeeper.menuState == 3)
+        else if (VariableKeeper.menuState == 3)  // In game
         {
             //Debug.Log("Game Menu");
             PanelMainMenu.SetActive(false);
@@ -279,6 +295,8 @@ public class SceneChanging : MonoBehaviour {
                 Level2MusicPlayer.Play();
             }
             PlayerMovement.MovementEnabled = true;
+
+            menuCharacters.gameObject.SetActive(false);
         }
     }
 
