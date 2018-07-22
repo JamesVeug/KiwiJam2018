@@ -124,7 +124,7 @@ public class Human : MonoBehaviour, IUsable
         {
             ToggleAI(false);
             TogglePhysics(false);
-            StartCoroutine(PushableSection.PlayPushAnimation(transform));
+            PushableSection.PlayPushAnimation(transform);
             PushableSection = null;
         }
     }

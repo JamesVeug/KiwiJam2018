@@ -6,6 +6,8 @@ public class PushableZone : MonoBehaviour
 {
     public float FallTime = 5.0f;
     public Transform FallArea;
+    public Animator FallAnimation;
+    public Transform AttachTransform;
 
     private void Update()
     {
@@ -29,26 +31,10 @@ public class PushableZone : MonoBehaviour
         humans[0].PushableSection = this;
     }
 
-    public IEnumerator PlayPushAnimation(Transform humanTransform)
+    public void PlayPushAnimation(Transform humanTransform)
     {
-        Vector3 startPosition = humanTransform.position;
-        Vector3 endPosition = FallArea.position;
+        humanTransform.parent = AttachTransform;
 
-        Quaternion startRotation = humanTransform.rotation;
-        Quaternion endRotation = FallArea.rotation;
-
-        float distance = (endPosition - startPosition).magnitude;
-
-        float delta = 0.0f;
-        while (delta < FallTime)
-        {
-            humanTransform.position = Vector3.Lerp(startPosition, endPosition, delta);
-            humanTransform.rotation = Quaternion.Slerp(startRotation, endRotation, delta);
-            delta += Time.deltaTime;
-            yield return null;
-        }
-
-        humanTransform.position = endPosition;
-        yield return null;
+        FallAnimation.SetTrigger("Fall");
     }
 }

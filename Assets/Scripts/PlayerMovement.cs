@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    public static bool MovementEnabled = true;
+
     public float speed = 6.0f;
     public float jumpSpeed = 8.0f;
     public float gravity = 20.0f;
@@ -27,8 +26,20 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        // use
-        if ((Input.GetButtonDown("Submit") || Input.GetButtonDown("Fire1")) && attachedUsable != null)
+        if (!MovementEnabled)
+        {
+            return;
+        }
+
+        // Use
+        if ((Input.GetButtonDown("Submit") || Input.GetButtonDown("Fire2")) && attachedUsable != null && attachedUsable is Human)
+        {
+            moveDirection = Vector3.zero;
+            animator.SetTrigger("Push");
+            Human human = attachedUsable as Human;
+            human.Push();
+        }
+        else if ((Input.GetButtonDown("Submit") || Input.GetButtonDown("Fire1")) && attachedUsable != null)
         {
             attachedUsable.Use(this);
         }
