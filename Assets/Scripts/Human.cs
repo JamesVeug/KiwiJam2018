@@ -14,7 +14,6 @@ public class Human : MonoBehaviour, IUsable
     public float minFollowDistance = 1.0f;
 
     public CharacterController characterController;
-    public Rigidbody rigidBody;
     public Animator animator;
 
 
@@ -87,11 +86,6 @@ public class Human : MonoBehaviour, IUsable
         return angle.normalized;
     }
 
-    public void TogglePhysics(bool active)
-    {
-        rigidBody.useGravity = !active;
-    }
-
     public void ToggleAI(bool active)
     {
         movementEnabled = active;
@@ -125,7 +119,6 @@ public class Human : MonoBehaviour, IUsable
         if (CanBePushed)
         {
             ToggleAI(false);
-            TogglePhysics(false);
             PushableSection.PlayPushAnimation(transform);
             PushableSection = null;
         }

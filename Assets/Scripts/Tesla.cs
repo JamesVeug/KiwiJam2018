@@ -18,12 +18,12 @@ public class Tesla : MonoBehaviour
 
     public void OnTriggered(Collider collider)
     {
-        Human human = collider.transform.parent.parent.GetComponent<Human>();
+        Human human = collider.GetComponent<Human>();
 
         human.ToggleAI(false);
-        human.TogglePhysics(false);
+        
         human.transform.position = SnapHumanPosition.position;
-        human.animator.SetBool("IsBeingElectricuted", true);
+        human.animator.SetTrigger("Electrocuting");
         Lightening.enabled = true;
 
         if(OnTrigger != null)
