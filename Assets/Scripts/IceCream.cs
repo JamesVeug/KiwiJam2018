@@ -13,7 +13,6 @@ public class IceCream : MonoBehaviour
             {
                 menuManager.GetComponent<SceneChanging>().WinGame();
                 VariableKeeper.isIceCreamLicked = true;
-                return;
             }
         }
         else if (!VariableKeeper.isIceCreamLicked)
