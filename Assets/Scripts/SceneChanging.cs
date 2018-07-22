@@ -38,6 +38,12 @@ public class SceneChanging : MonoBehaviour {
     public GameObject girlComeSFX;
     private AudioSource[] girlCome;
     private int girlComeTotal;
+    public GameObject girlDeathSFX;
+    private AudioSource[] girlDeath;
+    private int girlDeathTotal;
+    public GameObject electrocutionSFX;
+    private AudioSource[] electrocution;
+    private int electrocutionTotal;
 
 
     // Use this for initialization
@@ -53,7 +59,7 @@ public class SceneChanging : MonoBehaviour {
         //Debug.Log("MenuStateBefore " + VariableKeeper.menuStateBefore);
         //Debug.Log("MenuState " + VariableKeeper.menuState);
         //Debug.Log("LevelProgression " + VariableKeeper.levelProgression);
-        Debug.Log(VariableKeeper.isIceCreamLicked);
+        //Debug.Log(VariableKeeper.isIceCreamLicked);
 
 
         //If the menu state changed, activate the appropriate menus
@@ -86,7 +92,17 @@ public class SceneChanging : MonoBehaviour {
         manDeathTotal = manDeath.Length;
         girlCome = girlComeSFX.GetComponentsInChildren<AudioSource>();
         girlComeTotal = girlCome.Length;
+        girlDeath = girlDeathSFX.GetComponentsInChildren<AudioSource>();
+        girlDeathTotal = girlDeath.Length;
+        electrocution = electrocutionSFX.GetComponentsInChildren<AudioSource>();
+        electrocutionTotal = electrocution.Length;
 
+    }
+
+    public void PlaySFXelectrocution()
+    {
+        int random = Random.Range(0, electrocutionTotal);
+        electrocution[random].Play();
     }
 
     public void PlaySFXManDeath()
@@ -95,13 +111,18 @@ public class SceneChanging : MonoBehaviour {
         manDeath[random].Play();
     }
 
+    public void PlaySFXGirlDeath()
+    {
+        int random = Random.Range(0, girlDeathTotal);
+        girlDeath[random].Play();
+    }
+
     public void PlaySFXGirlCome()
     {
         int random = Random.Range(0, girlComeTotal);
         girlCome[random].Play();
     }
-
-
+    
     public void PlaySFXButtonPress()
     {
         int random = Random.Range(0, buttonPressTotal);
