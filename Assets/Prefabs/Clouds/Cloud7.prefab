@@ -71,8 +71,8 @@ MonoBehaviour:
   ScaleRange: {x: 0.25, y: 1}
   SpeedRange: {x: 0.025, y: 0.01}
   moveRight: 1
-  MaxLife: 3
-  SpawninTime: 0
+  MaxLife: 10
+  SpawninTime: 2
 --- !u!222 &222637831535604650
 CanvasRenderer:
   m_ObjectHideFlags: 1
