@@ -19,15 +19,23 @@ public class SceneChanging : MonoBehaviour {
         }
     }
 
+    private AudioSource[] allAudioSources;
+
     public GameObject PanelMainMenu;
     public GameObject PanelWinMenu;
     public GameObject PanelLoseMenu;
     public GameObject PanelGameMenu;
     public GameObject PanelButtons;
 
-    private AudioSource MenuMusicGenerator;
+    private AudioSource MainMenuMusicPlayer;
     public GameObject MainMenuMusic;
+    private AudioSource Level1MusicPlayer;
+    public GameObject Level1Music;
+    private AudioSource Level2MusicPlayer;
+    public GameObject Level2Music;
+    private AudioSource WinMenuMusicPlayer;
     public GameObject WinMenuMusic;
+    private AudioSource LoseMenuMusicPlayer;
     public GameObject LoseMenuMusic;
     public GameObject buttonPressSFX;
     private AudioSource[] buttonPress;
@@ -63,8 +71,9 @@ public class SceneChanging : MonoBehaviour {
     // Use this for initialization
     void Start () {
         DontDestroyOnLoad(gameObject);//Menu Manager lives forever
-        MenuPanelController();//turn panels on/off correctly
         InitializeAudio();
+        MenuPanelController();//turn panels on/off correctly
+
     }
 
 	// Update is called once per frame
@@ -99,6 +108,12 @@ public class SceneChanging : MonoBehaviour {
     public void InitializeAudio()
     {
         //menuManager.GetComponent<SceneChanging>().PlaySFXManDeath();
+        allAudioSources = FindObjectsOfType(typeof(AudioSource)) as AudioSource[];
+        MainMenuMusicPlayer = MainMenuMusic.GetComponent<AudioSource>();
+        WinMenuMusicPlayer = WinMenuMusic.GetComponent<AudioSource>();
+        LoseMenuMusicPlayer = LoseMenuMusic.GetComponent<AudioSource>();
+        Level1MusicPlayer = Level1Music.GetComponent<AudioSource>();
+        Level2MusicPlayer = Level2Music.GetComponent<AudioSource>();
         buttonPress = buttonPressSFX.GetComponentsInChildren<AudioSource>();
         buttonPressTotal = buttonPress.Length;
         manDeath = manDeathSFX.GetComponentsInChildren<AudioSource>();
@@ -223,8 +238,7 @@ public class SceneChanging : MonoBehaviour {
             PanelLoseMenu.SetActive(false);
             PanelGameMenu.SetActive(false);
             PanelButtons.SetActive(true);
-            MenuMusicGenerator = MainMenuMusic.GetComponent<AudioSource>();
-            MenuMusicGenerator.Play();
+            MainMenuMusicPlayer.Play();
             PlayerMovement.MovementEnabled = false;
         }
         else if (VariableKeeper.menuState == 1)
@@ -235,8 +249,7 @@ public class SceneChanging : MonoBehaviour {
             PanelLoseMenu.SetActive(false);
             PanelGameMenu.SetActive(false);
             PanelButtons.SetActive(true);
-            MenuMusicGenerator = WinMenuMusic.GetComponent<AudioSource>();
-            MenuMusicGenerator.Play();
+            WinMenuMusicPlayer.Play();
             PlayerMovement.MovementEnabled = false;
         }
         else if (VariableKeeper.menuState == 2)
@@ -247,8 +260,7 @@ public class SceneChanging : MonoBehaviour {
             PanelLoseMenu.SetActive(true);
             PanelGameMenu.SetActive(false);
             PanelButtons.SetActive(true);
-            MenuMusicGenerator = LoseMenuMusic.GetComponent<AudioSource>();
-            MenuMusicGenerator.Play();
+            LoseMenuMusicPlayer.Play();
             PlayerMovement.MovementEnabled = false;
         }
         else if (VariableKeeper.menuState == 3)
@@ -259,8 +271,13 @@ public class SceneChanging : MonoBehaviour {
             PanelLoseMenu.SetActive(false);
             PanelGameMenu.SetActive(true);
             PanelButtons.SetActive(false);
-            //MenuMusicGenerator = LoseMenuMusic.GetComponent<AudioSource>();
-            //MenuMusicGenerator.Play();
+            if(VariableKeeper.levelProgression == 1)
+            {
+                Level1MusicPlayer.Play();
+            } else
+            {
+                Level2MusicPlayer.Play();
+            }
             PlayerMovement.MovementEnabled = true;
         }
     }
@@ -286,7 +303,7 @@ public class SceneChanging : MonoBehaviour {
     //load main menu
     public void ReturnToMenu()
     {
-        MenuMusicGenerator.Stop();
+        StopAllAudio();
         PlaySFXButtonPress();
         VariableKeeper.menuState = 0;
     }
@@ -294,10 +311,11 @@ public class SceneChanging : MonoBehaviour {
     //load first level
     public void StartGame()
     {
-        MenuMusicGenerator.Stop();
+        StopAllAudio();
         VariableKeeper.menuState = 3;
         VariableKeeper.levelProgression = 1;
         PlaySFXButtonPress();
+        PlaySFXGirlWant();
         SceneManager.LoadScene(VariableKeeper.levelStart);
         VariableKeeper.isIceCreamLicked = false;
     }
@@ -305,9 +323,10 @@ public class SceneChanging : MonoBehaviour {
     //load scene from last play
     public void ContinueGame()
 	{
-        MenuMusicGenerator.Stop();
+        StopAllAudio();
         VariableKeeper.menuState = 3;
         PlaySFXButtonPress();
+        PlaySFXGirlWant();
         SceneManager.LoadScene(VariableKeeper.levelProgression);
         VariableKeeper.isIceCreamLicked = false;
     }
@@ -315,8 +334,9 @@ public class SceneChanging : MonoBehaviour {
     //load next level
     public void NextGame()
     {
-        MenuMusicGenerator.Stop();
+        StopAllAudio();
         VariableKeeper.menuState = 3;
+        PlaySFXGirlWin();
         VariableKeeper.levelProgression = VariableKeeper.levelProgression + 1;
         VariableKeeper.isIceCreamLicked = false;
         SceneManager.LoadScene(VariableKeeper.levelProgression);
@@ -325,10 +345,11 @@ public class SceneChanging : MonoBehaviour {
     //win game
     public void WinGame()
     {
-        MenuMusicGenerator.Stop();
+        StopAllAudio();
         VariableKeeper.menuState = 1;
         MenuPanelController();
         VariableKeeper.levelProgression = 1;
+        PlaySFXGirlWin();
         VariableKeeper.isIceCreamLicked = false;
 
     }
@@ -336,7 +357,7 @@ public class SceneChanging : MonoBehaviour {
     //lose game
     public void LoseGame()
     {
-        MenuMusicGenerator.Stop();
+        StopAllAudio();
         VariableKeeper.menuState = 2;
         VariableKeeper.isIceCreamLicked = false;
         Debug.Log("did I lose?");
@@ -345,9 +366,17 @@ public class SceneChanging : MonoBehaviour {
     //quit game
     public void QuitGame()
     {
-        MenuMusicGenerator.Stop();
+        StopAllAudio();
         Application.Quit();
     }
 
+    //Stop all sounds
+    void StopAllAudio()
+    {
+        foreach (AudioSource audioS in allAudioSources)
+        {
+            audioS.Stop();
+        }
+    }
 
 }

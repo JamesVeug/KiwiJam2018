@@ -890,6 +890,8 @@ MonoBehaviour:
   PanelGameMenu: {fileID: 1323464279}
   PanelButtons: {fileID: 33006472}
   MainMenuMusic: {fileID: 1148276545}
+  Level1Music: {fileID: 1542221349}
+  Level2Music: {fileID: 1698350383}
   WinMenuMusic: {fileID: 1051478249}
   LoseMenuMusic: {fileID: 1605188369}
   buttonPressSFX: {fileID: 400380951}
@@ -4768,7 +4770,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: dbcca3160e73fe64899eb02ea1693750, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 2a4e2513ff28bb14c89ff11d4a0e0a66, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -5163,7 +5165,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: a70b3422bc246c34eb302fa9586f8e13, type: 3}
+  m_audioClip: {fileID: 8300000, guid: ac491bd1ca552d04db5189794e2bedba, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -6204,7 +6206,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 1bdded3f86c0e7a4691d29b1c826bf75, type: 3}
+  m_audioClip: {fileID: 8300000, guid: dbc1442902ce0164f8bd64d761093dc7, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -6854,7 +6856,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: dc69a96ba69db3f47bff927a2204be15, type: 3}
+  m_audioClip: {fileID: 8300000, guid: ce13e157cac9e2a40b90b8c5c38d7c37, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -7330,7 +7332,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: bafdf582a7ac9e44095b935370ca62ae, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 42d790e7a42de944a857e37457c0446e, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
