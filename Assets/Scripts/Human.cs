@@ -111,6 +111,7 @@ public class Human : MonoBehaviour, IUsable
         else
         {
             FollowPlayer(player);
+            SceneChanging.Instance.PlaySFXGirlCome();
         }
     }
 

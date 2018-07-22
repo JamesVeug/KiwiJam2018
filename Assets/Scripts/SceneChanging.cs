@@ -5,6 +5,20 @@ using UnityEngine.SceneManagement;
 
 public class SceneChanging : MonoBehaviour {
 
+    public static SceneChanging Instance
+    {
+        get {
+            var menuManager = GameObject.Find("MenuManager");
+            if (menuManager != null)
+            {
+                return menuManager.GetComponent<SceneChanging>();
+            }
+
+            Debug.LogError("No SceneManager");
+            return null;
+        }
+    }
+
     public GameObject PanelMainMenu;
     public GameObject PanelWinMenu;
     public GameObject PanelLoseMenu;
