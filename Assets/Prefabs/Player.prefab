@@ -310,6 +310,7 @@ GameObject:
   - component: {fileID: 114035571746351586}
   - component: {fileID: 143791034609470926}
   - component: {fileID: 65524340929381952}
+  - component: {fileID: 114402778858299820}
   m_Layer: 9
   m_Name: Player
   m_TagString: Player
@@ -1220,6 +1221,18 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: TriggerZone+TriggerEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
+--- !u!114 &114402778858299820
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1720768522587750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1ad65a4bfa389543a7cb630b2c96407, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LaughDelay: {x: 10, y: 20}
 --- !u!137 &137895443928620420
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

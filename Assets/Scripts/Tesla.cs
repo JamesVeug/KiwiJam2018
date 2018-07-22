@@ -26,7 +26,7 @@ public class Tesla : MonoBehaviour
         human.animator.SetTrigger("Electrocuting");
         Lightening.enabled = true;
 
-        SceneChanging.Instance.PlaySFXManDeath();
+        SceneChanging.Instance.PlaySFXelectrocution();
 
         if (OnTrigger != null)
         {
