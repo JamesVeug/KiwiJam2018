@@ -46,6 +46,8 @@ public class Human : MonoBehaviour, IUsable
         // Move the controller
         CollisionFlags flags = characterController.Move(moveDirection * Time.deltaTime);
         grounded = (flags &= CollisionFlags.CollidedBelow) != 0;
+
+        animator.SetBool("Walking", grounded && moveDirection.x != 0.0);
     }
 
     private void FacePlayer()
@@ -120,7 +122,7 @@ public class Human : MonoBehaviour, IUsable
         if (CanBePushed)
         {
             ToggleAI(false);
-            PushableSection.PlayPushAnimation(transform);
+            StartCoroutine(PushableSection.PlayPushAnimation(transform));
             PushableSection = null;
         }
     }

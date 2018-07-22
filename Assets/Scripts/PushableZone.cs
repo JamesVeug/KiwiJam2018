@@ -25,12 +25,14 @@ public class PushableZone : MonoBehaviour
         humans[0].PushableSection = this;
     }
 
-    public void PlayPushAnimation(Transform humanTransform)
+    public IEnumerator PlayPushAnimation(Transform humanTransform)
     {
         humanTransform.parent = AttachTransform;
 
         RestartZone.Active = false;
         FallAnimation.SetTrigger("Pushed2");
+
+        yield return new WaitForSeconds(1);
         SceneChanging.Instance.PlaySFXManDeath();
     }
 }
