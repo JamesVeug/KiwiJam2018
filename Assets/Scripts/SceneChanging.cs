@@ -5,20 +5,66 @@ using UnityEngine.SceneManagement;
 
 public class SceneChanging : MonoBehaviour {
 
-    public GameObject MainMenuMusic;
-    public GameObject WinMenuMusic;
-    public GameObject LoseMenuMusic;
+    public static SceneChanging Instance
+    {
+        get {
+            var menuManager = GameObject.Find("MenuManager");
+            if (menuManager != null)
+            {
+                return menuManager.GetComponent<SceneChanging>();
+            }
+
+            Debug.LogError("No SceneManager");
+            return null;
+        }
+    }
+
     public GameObject PanelMainMenu;
     public GameObject PanelWinMenu;
     public GameObject PanelLoseMenu;
     public GameObject PanelGameMenu;
     public GameObject PanelButtons;
+
     private AudioSource MenuMusicGenerator;
-	
-	// Use this for initialization
-	void Start () {
+    public GameObject MainMenuMusic;
+    public GameObject WinMenuMusic;
+    public GameObject LoseMenuMusic;
+    public GameObject buttonPressSFX;
+    private AudioSource[] buttonPress;
+    private int buttonPressTotal;
+    public GameObject manDeathSFX;
+    private AudioSource[] manDeath;
+    private int manDeathTotal;
+    public GameObject girlComeSFX;
+    private AudioSource[] girlCome;
+    private int girlComeTotal;
+    public GameObject girlDeathSFX;
+    private AudioSource[] girlDeath;
+    private int girlDeathTotal;
+    public GameObject electrocutionSFX;
+    private AudioSource[] electrocution;
+    private int electrocutionTotal;
+    public GameObject electricitySFX;
+    private AudioSource[] electricity;
+    private int electricityTotal;
+    public GameObject girlJumpSFX;
+    private AudioSource[] girlJump;
+    private int girlJumpTotal;
+    public GameObject girlLaughSFX;
+    private AudioSource[] girlLaugh;
+    private int girlLaughTotal;
+    public GameObject girlWantSFX;
+    private AudioSource[] girlWant;
+    private int girlWantTotal;
+    public GameObject girlWinSFX;
+    private AudioSource[] girlWin;
+    private int girlWinTotal;
+
+    // Use this for initialization
+    void Start () {
         DontDestroyOnLoad(gameObject);//Menu Manager lives forever
         MenuPanelController();//turn panels on/off correctly
+        InitializeAudio();
     }
 
 	// Update is called once per frame
@@ -27,7 +73,7 @@ public class SceneChanging : MonoBehaviour {
         //Debug.Log("MenuStateBefore " + VariableKeeper.menuStateBefore);
         //Debug.Log("MenuState " + VariableKeeper.menuState);
         //Debug.Log("LevelProgression " + VariableKeeper.levelProgression);
-        Debug.Log(VariableKeeper.isIceCreamLicked);
+        //Debug.Log(VariableKeeper.isIceCreamLicked);
 
 
         //If the menu state changed, activate the appropriate menus
@@ -47,6 +93,92 @@ public class SceneChanging : MonoBehaviour {
         {
             GameInputTaker();
         }
+    }
+
+    //gets the audio started
+    public void InitializeAudio()
+    {
+        //menuManager.GetComponent<SceneChanging>().PlaySFXManDeath();
+        buttonPress = buttonPressSFX.GetComponentsInChildren<AudioSource>();
+        buttonPressTotal = buttonPress.Length;
+        manDeath = manDeathSFX.GetComponentsInChildren<AudioSource>();
+        manDeathTotal = manDeath.Length;
+        girlCome = girlComeSFX.GetComponentsInChildren<AudioSource>();
+        girlComeTotal = girlCome.Length;
+        girlDeath = girlDeathSFX.GetComponentsInChildren<AudioSource>();
+        girlDeathTotal = girlDeath.Length;
+        electrocution = electrocutionSFX.GetComponentsInChildren<AudioSource>();
+        electrocutionTotal = electrocution.Length;
+        electricity = electricitySFX.GetComponentsInChildren<AudioSource>();
+        electricityTotal = electricity.Length;
+        girlJump = girlJumpSFX.GetComponentsInChildren<AudioSource>();
+        girlJumpTotal = girlJump.Length;
+        girlLaugh = girlLaughSFX.GetComponentsInChildren<AudioSource>();
+        girlLaughTotal = girlLaugh.Length;
+        girlWant = girlWantSFX.GetComponentsInChildren<AudioSource>();
+        girlWantTotal = girlWant.Length;
+        girlWin = girlWinSFX.GetComponentsInChildren<AudioSource>();
+        girlWinTotal = girlWin.Length;
+    }
+
+    public void PlaySFXGirlWant()
+    {
+        int random = Random.Range(0, girlWantTotal);
+        girlWant[random].Play();
+    }
+
+    public void PlaySFXGirlWin()
+    {
+        int random = Random.Range(0, girlWinTotal);
+        girlWin[random].Play();
+    }
+
+    public void PlaySFXGirlJump()
+    {
+        int random = Random.Range(0, girlJumpTotal);
+        girlJump[random].Play();
+    }
+
+    public void PlaySFXGirlLaugh()
+    {
+        int random = Random.Range(0, girlLaughTotal);
+        girlLaugh[random].Play();
+    }
+    
+    public void PlaySFXelectricity()
+    {
+        int random = Random.Range(0, electricityTotal);
+        electricity[random].Play();
+    }
+
+    public void PlaySFXelectrocution()
+    {
+        int random = Random.Range(0, electrocutionTotal);
+        electrocution[random].Play();
+    }
+
+    public void PlaySFXManDeath()
+    {
+        int random = Random.Range(0, manDeathTotal);
+        manDeath[random].Play();
+    }
+
+    public void PlaySFXGirlDeath()
+    {
+        int random = Random.Range(0, girlDeathTotal);
+        girlDeath[random].Play();
+    }
+
+    public void PlaySFXGirlCome()
+    {
+        int random = Random.Range(0, girlComeTotal);
+        girlCome[random].Play();
+    }
+    
+    public void PlaySFXButtonPress()
+    {
+        int random = Random.Range(0, buttonPressTotal);
+        buttonPress[random].Play();
     }
 
     //takes input of the menus outside the game
@@ -155,6 +287,7 @@ public class SceneChanging : MonoBehaviour {
     public void ReturnToMenu()
     {
         MenuMusicGenerator.Stop();
+        PlaySFXButtonPress();
         VariableKeeper.menuState = 0;
     }
 
@@ -164,6 +297,7 @@ public class SceneChanging : MonoBehaviour {
         MenuMusicGenerator.Stop();
         VariableKeeper.menuState = 3;
         VariableKeeper.levelProgression = 1;
+        PlaySFXButtonPress();
         SceneManager.LoadScene(VariableKeeper.levelStart);
         VariableKeeper.isIceCreamLicked = false;
     }
@@ -173,6 +307,7 @@ public class SceneChanging : MonoBehaviour {
 	{
         MenuMusicGenerator.Stop();
         VariableKeeper.menuState = 3;
+        PlaySFXButtonPress();
         SceneManager.LoadScene(VariableKeeper.levelProgression);
         VariableKeeper.isIceCreamLicked = false;
     }
