@@ -900,8 +900,8 @@ MonoBehaviour:
   electricitySFX: {fileID: 1198075357}
   girlJumpSFX: {fileID: 30258971}
   girlLaughSFX: {fileID: 2122550986}
-  girlWantSFX: {fileID: 609080210}
-  girlWinSFX: {fileID: 1131522560}
+  girlWantSFX: {fileID: 1131522560}
+  girlWinSFX: {fileID: 609080210}
 --- !u!4 &106815734
 Transform:
   m_ObjectHideFlags: 0
@@ -2922,7 +2922,7 @@ GameObject:
   m_Component:
   - component: {fileID: 609080211}
   m_Layer: 0
-  m_Name: SFXGirlWant
+  m_Name: SFXGirlWin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5101,7 +5101,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1131522561}
   m_Layer: 0
-  m_Name: SFXGirlLaugh (2)
+  m_Name: SFXGirlWant
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
