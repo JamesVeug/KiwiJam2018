@@ -30,6 +30,15 @@ public class SceneChanging : MonoBehaviour {
     public GameObject electrocutionSFX;
     private AudioSource[] electrocution;
     private int electrocutionTotal;
+    public GameObject electricitySFX;
+    private AudioSource[] electricity;
+    private int electricityTotal;
+    public GameObject girlJumpSFX;
+    private AudioSource[] girlJump;
+    private int girlJumpTotal;
+    public GameObject girlLaughSFX;
+    private AudioSource[] girlLaugh;
+    private int girlLaughTotal;
 
 
     // Use this for initialization
@@ -70,8 +79,7 @@ public class SceneChanging : MonoBehaviour {
     //gets the audio started
     public void InitializeAudio()
     {
-
-        //                menuManager.GetComponent<SceneChanging>().PlaySFXManDeath();
+        //menuManager.GetComponent<SceneChanging>().PlaySFXManDeath();
         buttonPress = buttonPressSFX.GetComponentsInChildren<AudioSource>();
         buttonPressTotal = buttonPress.Length;
         manDeath = manDeathSFX.GetComponentsInChildren<AudioSource>();
@@ -82,7 +90,30 @@ public class SceneChanging : MonoBehaviour {
         girlDeathTotal = girlDeath.Length;
         electrocution = electrocutionSFX.GetComponentsInChildren<AudioSource>();
         electrocutionTotal = electrocution.Length;
+        electricity = electricitySFX.GetComponentsInChildren<AudioSource>();
+        electricityTotal = electricity.Length;
+        girlJump = girlJumpSFX.GetComponentsInChildren<AudioSource>();
+        girlJumpTotal = girlJump.Length;
+        girlLaugh = girlLaughSFX.GetComponentsInChildren<AudioSource>();
+        girlLaughTotal = girlLaugh.Length;
+    }
 
+    public void PlaySFXGirlJump()
+    {
+        int random = Random.Range(0, girlJumpTotal);
+        girlJump[random].Play();
+    }
+
+    public void PlaySFXGirlLaugh()
+    {
+        int random = Random.Range(0, girlLaughTotal);
+        girlLaugh[random].Play();
+    }
+    
+    public void PlaySFXelectricity()
+    {
+        int random = Random.Range(0, electricityTotal);
+        electricity[random].Play();
     }
 
     public void PlaySFXelectrocution()
