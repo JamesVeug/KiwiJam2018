@@ -9,7 +9,7 @@ public class PushableZone : MonoBehaviour
     public Animator FallAnimation;
     public Transform AttachTransform;
 
-    private void Update()
+    /*private void Update()
     {
         if (Input.GetButtonDown("Cancel"))
         {
@@ -17,7 +17,7 @@ public class PushableZone : MonoBehaviour
             human.PushableSection = this;
             human.Push();
         }
-    }
+    }*/
 
     public void OnHumanEntered(Collider collider)
     {

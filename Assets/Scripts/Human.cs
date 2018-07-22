@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class Human : MonoBehaviour, IUsable
 {
+    public bool CanBePushed { get { return PushableSection != null; } }
+
     public float speed = 6.0f;
     public float gravity = 20.0f;
     public float jumpSpeed = 8.0f;
@@ -120,7 +122,7 @@ public class Human : MonoBehaviour, IUsable
 
     public void Push()
     {
-        if (PushableSection != null)
+        if (CanBePushed)
         {
             ToggleAI(false);
             TogglePhysics(false);

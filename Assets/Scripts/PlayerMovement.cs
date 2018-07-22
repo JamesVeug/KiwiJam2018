@@ -32,12 +32,15 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // Use
-        if ((Input.GetButtonDown("Submit") || Input.GetButtonDown("Fire2")) && attachedUsable != null && attachedUsable is Human)
+        if ((Input.GetButtonDown("Cancel") || Input.GetButtonDown("Fire2")) && attachedUsable != null && attachedUsable is Human)
         {
-            moveDirection = Vector3.zero;
-            animator.SetTrigger("Push");
             Human human = attachedUsable as Human;
-            human.Push();
+            if (human.CanBePushed)
+            {
+                moveDirection = Vector3.zero;
+                animator.SetTrigger("Push");
+                human.Push();
+            }
         }
         else if ((Input.GetButtonDown("Submit") || Input.GetButtonDown("Fire1")) && attachedUsable != null)
         {
