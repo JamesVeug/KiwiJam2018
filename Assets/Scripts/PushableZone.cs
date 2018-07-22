@@ -29,6 +29,7 @@ public class PushableZone : MonoBehaviour
     {
         humanTransform.parent = AttachTransform;
 
-        FallAnimation.SetTrigger("Fall");
+        RestartZone.Active = false;
+        FallAnimation.SetTrigger("Pushed2");
     }
 }
