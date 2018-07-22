@@ -31,5 +31,6 @@ public class PushableZone : MonoBehaviour
 
         RestartZone.Active = false;
         FallAnimation.SetTrigger("Pushed2");
+        SceneChanging.Instance.PlaySFXManDeath();
     }
 }
