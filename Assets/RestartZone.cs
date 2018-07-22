@@ -8,11 +8,14 @@ public class RestartZone : MonoBehaviour
 
 	public void RestartGame()
     {
-        var menuManager = GameObject.Find("MenuManager");
-        if (menuManager != null)
+        if (Active)
         {
-            menuManager.GetComponent<SceneChanging>().LoseGame();
-            menuManager.GetComponent<SceneChanging>().PlaySFXGirlDeath();
+            var menuManager = GameObject.Find("MenuManager");
+            if (menuManager != null)
+            {
+                menuManager.GetComponent<SceneChanging>().LoseGame();
+                menuManager.GetComponent<SceneChanging>().PlaySFXGirlDeath();
+            }
         }
     }
 }
