@@ -351,9 +351,11 @@ MonoBehaviour:
   speed: 6
   gravity: 20
   jumpSpeed: 8
+  minFollowDistance: 1
   characterController: {fileID: 143948524227455190}
   rigidBody: {fileID: 54874094132522196}
   animator: {fileID: 95814666627060076}
+  PushableSection: {fileID: 0}
 --- !u!143 &143948524227455190
 CharacterController:
   m_ObjectHideFlags: 1

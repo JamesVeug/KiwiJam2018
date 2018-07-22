@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    public static bool MovementEnabled = true;
+
     public float speed = 6.0f;
     public float jumpSpeed = 8.0f;
     public float gravity = 20.0f;
@@ -16,17 +15,34 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 moveDirection = Vector3.zero;
     private bool grounded = false;
 
+    private Animator animator;
     private CharacterController characterController;
 
     private void Awake()
     {
         characterController = GetComponent<CharacterController>();
+        animator = GetComponentInChildren<Animator>();
     }
 
     void FixedUpdate()
     {
-        // use
-        if ((Input.GetButtonDown("Submit") || Input.GetButtonDown("Fire1")) && attachedUsable != null)
+        if (!MovementEnabled)
+        {
+            return;
+        }
+
+        // Use
+        if ((Input.GetButtonDown("Cancel") || Input.GetButtonDown("Fire2")) && attachedUsable != null && attachedUsable is Human)
+        {
+            Human human = attachedUsable as Human;
+            if (human.CanBePushed)
+            {
+                moveDirection = Vector3.zero;
+                animator.SetTrigger("Push");
+                human.Push();
+            }
+        }
+        else if ((Input.GetButtonDown("Submit") || Input.GetButtonDown("Fire1")) && attachedUsable != null)
         {
             attachedUsable.Use(this);
         }
@@ -40,6 +56,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 movingOnLadder = false;
                 MoveHorizontally(axis * jumpSpeed);
+                animator.SetBool("Climbing", false);
             }
             else
             {
@@ -51,6 +68,7 @@ public class PlayerMovement : MonoBehaviour
         else if(attachedLadder != null && axis.y != 0.0 && axis.x == 0.0)
         {
             movingOnLadder = true;
+            animator.SetBool("Climbing", true);
 
             transform.rotation = Quaternion.Euler(0, 0, 0);
             Vector3 newPosition = ClosestPointOnLine(attachedLadder.BottomClimbPoint.position, attachedLadder.TopClimbPoint.position, transform.position);
@@ -63,14 +81,19 @@ public class PlayerMovement : MonoBehaviour
 
         if (!movingOnLadder)
         {
+            animator.SetBool("Grounded", grounded);
             if (grounded)
             {
                 // We are grounded, so recalculate movedirection directly from axes
                 MoveHorizontally(axis);
+                animator.SetTrigger("Grounded");
 
                 // Jump
-                if (Input.GetButton("Jump"))
+                if (Input.GetButtonDown("Jump"))
+                {
+                    animator.SetTrigger("Jump");
                     moveDirection.y = jumpSpeed;
+                }
             }
 
             // Apply gravity
@@ -79,6 +102,11 @@ public class PlayerMovement : MonoBehaviour
             // Move the controller
             MoveInDirection(moveDirection);
         }
+
+        animator.SetBool("Walking", grounded && axis.x != 0.0);
+
+        float moveSpeed = Mathf.Abs(characterController.velocity.y) / speed;
+        animator.SetFloat("ClimbSpeed", moveSpeed);
     }
 
     private void MoveHorizontally(Vector3 axis)

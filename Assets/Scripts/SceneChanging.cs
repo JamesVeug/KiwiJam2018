@@ -14,45 +14,69 @@ public class SceneChanging : MonoBehaviour {
     public GameObject PanelGameMenu;
     public GameObject PanelButtons;
     private AudioSource MenuMusicGenerator;
-    private Scene ActiveScene;
 	
 	// Use this for initialization
 	void Start () {
-        DontDestroyOnLoad(gameObject);
+        DontDestroyOnLoad(gameObject);//Menu Manager lives forever
         MenuPanelController();//turn panels on/off correctly
-
     }
 
 	// Update is called once per frame
 	void Update () {
 
-        //If the scene changed, activate the appropriate menus
-        ActiveScene = SceneManager.GetActiveScene();
-        if (ActiveScene.buildIndex != VariableKeeper.lastSceneNumber)
+        //Debug.Log("MenuStateBefore " + VariableKeeper.menuStateBefore);
+        //Debug.Log("MenuState " + VariableKeeper.menuState);
+        //Debug.Log("LevelProgression " + VariableKeeper.levelProgression);
+        Debug.Log(VariableKeeper.isIceCreamLicked);
+
+
+        //If the menu state changed, activate the appropriate menus
+        if (VariableKeeper.menuState != VariableKeeper.menuStateBefore)
         {
             MenuPanelController();//turn panels on/off correctly
-            VariableKeeper.lastSceneNumber = ActiveScene.buildIndex;
+            VariableKeeper.menuStateBefore = VariableKeeper.menuState;
         }
 
         //main menu buttons to navigate scenes
+        //Debug.Log("MenuState is " + VariableKeeper.menuState);
         if (VariableKeeper.menuState != 3)
         {
-            if (Input.GetButtonDown("Continue"))
-            {
-                ContinueGame();
-            }
-            else if (Input.GetButtonDown("Debug"))
-            {
-                MenuChanger();
-            }
-            else if (Input.GetButtonDown("Start"))
-            {
-                StartGame();
-            }
-            else if (Input.GetButtonDown("Stop"))
-            {
-                QuitGame();
-            }
+            MenuInputTaker();
+        }
+        else if ((VariableKeeper.menuState == 3))
+        {
+            GameInputTaker();
+        }
+    }
+
+    //takes input of the menus outside the game
+    public void MenuInputTaker()
+    {
+        if (Input.GetButtonDown("Continue"))
+        {
+            ContinueGame();
+        }
+        else if (Input.GetButtonDown("Credits"))
+        {
+            MenuChanger();
+            //Credits();
+        }
+        else if (Input.GetButtonDown("Start"))
+        {
+            StartGame();
+        }
+        else if (Input.GetButtonDown("Stop"))
+        {
+            QuitGame();
+        }
+    }
+
+    //takes input of the menus outside the game
+    public void GameInputTaker()
+    {
+        if (Input.GetButtonDown("Credits"))
+        {
+            ReturnToMenu();
         }
     }
 
@@ -61,7 +85,7 @@ public class SceneChanging : MonoBehaviour {
     {
         if (VariableKeeper.menuState == 0)
         {
-            Debug.Log("Main Menu");
+            //Debug.Log("Main Menu");
             PanelMainMenu.SetActive(true);
             PanelWinMenu.SetActive(false);
             PanelLoseMenu.SetActive(false);
@@ -69,10 +93,11 @@ public class SceneChanging : MonoBehaviour {
             PanelButtons.SetActive(true);
             MenuMusicGenerator = MainMenuMusic.GetComponent<AudioSource>();
             MenuMusicGenerator.Play();
+            PlayerMovement.MovementEnabled = false;
         }
         else if (VariableKeeper.menuState == 1)
         {
-            Debug.Log("Win Menu");
+            //Debug.Log("Win Menu");
             PanelMainMenu.SetActive(false);
             PanelWinMenu.SetActive(true);
             PanelLoseMenu.SetActive(false);
@@ -80,10 +105,11 @@ public class SceneChanging : MonoBehaviour {
             PanelButtons.SetActive(true);
             MenuMusicGenerator = WinMenuMusic.GetComponent<AudioSource>();
             MenuMusicGenerator.Play();
+            PlayerMovement.MovementEnabled = false;
         }
         else if (VariableKeeper.menuState == 2)
         {
-            Debug.Log("Lose Menu");
+            //Debug.Log("Lose Menu");
             PanelMainMenu.SetActive(false);
             PanelWinMenu.SetActive(false);
             PanelLoseMenu.SetActive(true);
@@ -91,10 +117,11 @@ public class SceneChanging : MonoBehaviour {
             PanelButtons.SetActive(true);
             MenuMusicGenerator = LoseMenuMusic.GetComponent<AudioSource>();
             MenuMusicGenerator.Play();
+            PlayerMovement.MovementEnabled = false;
         }
         else if (VariableKeeper.menuState == 3)
         {
-            Debug.Log("Game Menu");
+            //Debug.Log("Game Menu");
             PanelMainMenu.SetActive(false);
             PanelWinMenu.SetActive(false);
             PanelLoseMenu.SetActive(false);
@@ -102,6 +129,7 @@ public class SceneChanging : MonoBehaviour {
             PanelButtons.SetActive(false);
             //MenuMusicGenerator = LoseMenuMusic.GetComponent<AudioSource>();
             //MenuMusicGenerator.Play();
+            PlayerMovement.MovementEnabled = true;
         }
     }
 
@@ -110,16 +138,17 @@ public class SceneChanging : MonoBehaviour {
     public void MenuChanger()
     {
         Debug.Log("The menu was " + VariableKeeper.menuState);
-        if (VariableKeeper.menuState >= 2)
+        if (VariableKeeper.menuState == 2)
         {
             VariableKeeper.menuState = 0;
+            MenuPanelController();
         }
         else
         {
             VariableKeeper.menuState = VariableKeeper.menuState + 1;
+            MenuPanelController();
         }
         Debug.Log("The menu is "+VariableKeeper.menuState);
-        SceneManager.LoadScene(VariableKeeper.levelMenu);
     }
     
     //load main menu
@@ -127,7 +156,6 @@ public class SceneChanging : MonoBehaviour {
     {
         MenuMusicGenerator.Stop();
         VariableKeeper.menuState = 0;
-        SceneManager.LoadScene(VariableKeeper.levelMenu);
     }
 
     //load first level
@@ -135,7 +163,9 @@ public class SceneChanging : MonoBehaviour {
     {
         MenuMusicGenerator.Stop();
         VariableKeeper.menuState = 3;
+        VariableKeeper.levelProgression = 1;
         SceneManager.LoadScene(VariableKeeper.levelStart);
+        VariableKeeper.isIceCreamLicked = false;
     }
     
     //load scene from last play
@@ -144,14 +174,28 @@ public class SceneChanging : MonoBehaviour {
         MenuMusicGenerator.Stop();
         VariableKeeper.menuState = 3;
         SceneManager.LoadScene(VariableKeeper.levelProgression);
-	}
+        VariableKeeper.isIceCreamLicked = false;
+    }
+
+    //load next level
+    public void NextGame()
+    {
+        MenuMusicGenerator.Stop();
+        VariableKeeper.menuState = 3;
+        VariableKeeper.levelProgression = VariableKeeper.levelProgression + 1;
+        VariableKeeper.isIceCreamLicked = false;
+        SceneManager.LoadScene(VariableKeeper.levelProgression);
+    }
 
     //win game
     public void WinGame()
     {
         MenuMusicGenerator.Stop();
         VariableKeeper.menuState = 1;
-        SceneManager.LoadScene(VariableKeeper.levelMenu);
+        MenuPanelController();
+        VariableKeeper.levelProgression = 1;
+        VariableKeeper.isIceCreamLicked = false;
+
     }
 
     //lose game
@@ -159,7 +203,8 @@ public class SceneChanging : MonoBehaviour {
     {
         MenuMusicGenerator.Stop();
         VariableKeeper.menuState = 2;
-        SceneManager.LoadScene(VariableKeeper.levelMenu);
+        VariableKeeper.isIceCreamLicked = false;
+        Debug.Log("did I lose?");
     }
 
     //quit game

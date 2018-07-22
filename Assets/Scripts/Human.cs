@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class Human : MonoBehaviour, IUsable
 {
+    public bool CanBePushed { get { return PushableSection != null; } }
+
     public float speed = 6.0f;
     public float gravity = 20.0f;
     public float jumpSpeed = 8.0f;
@@ -21,6 +23,8 @@ public class Human : MonoBehaviour, IUsable
     private bool movementEnabled = true;
     private PlayerMovement playerToFollow;
 
+    public PushableZone PushableSection = null;
+
     void FixedUpdate()
     {
         if (!movementEnabled)
@@ -31,6 +35,7 @@ public class Human : MonoBehaviour, IUsable
         if (grounded && playerToFollow != null)
         {
             // We are grounded, so recalculate movedirection directly from axes
+            FacePlayer();
             moveDirection = GetFollowPlayerDirection();
             moveDirection = transform.TransformDirection(moveDirection);
             moveDirection *= speed;
@@ -44,6 +49,24 @@ public class Human : MonoBehaviour, IUsable
         grounded = (flags &= CollisionFlags.CollidedBelow) != 0;
     }
 
+    private void FacePlayer()
+    {
+        if (playerToFollow == null)
+        {
+            return;
+        }
+
+        if (playerToFollow.transform.position.x < transform.position.x)
+        {
+            transform.rotation = Quaternion.Euler(0, 0, 0);
+        }
+        else if (playerToFollow.transform.position.x > transform.position.x)
+        {
+            transform.rotation = Quaternion.Euler(0, 180, 0);
+        }
+
+    }
+
     private Vector3 GetFollowPlayerDirection()
     {
         Vector3 angle = playerToFollow.transform.position - transform.position;
@@ -55,13 +78,18 @@ public class Human : MonoBehaviour, IUsable
 
         angle.y = 0;
         angle.z = 0;
+
+        if (playerToFollow.transform.position.x > transform.position.x)
+        {
+            angle.x *= -1;
+        }
+
         return angle.normalized;
     }
 
     public void TogglePhysics(bool active)
     {
-        rigidBody.detectCollisions = active;
-        rigidBody.isKinematic = !active;
+        rigidBody.useGravity = !active;
     }
 
     public void ToggleAI(bool active)
@@ -89,6 +117,17 @@ public class Human : MonoBehaviour, IUsable
         else
         {
             FollowPlayer(player);
+        }
+    }
+
+    public void Push()
+    {
+        if (CanBePushed)
+        {
+            ToggleAI(false);
+            TogglePhysics(false);
+            PushableSection.PlayPushAnimation(transform);
+            PushableSection = null;
         }
     }
 }
