@@ -32,7 +32,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // Use
-        if ((Input.GetButtonDown("Cancel") || Input.GetButtonDown("Fire2")) && attachedUsable != null && attachedUsable is Human)
+        if (Input.GetButtonDown("Fire2") && attachedUsable != null && attachedUsable is Human)
         {
             Human human = attachedUsable as Human;
             if (human.CanBePushed)
@@ -42,7 +42,7 @@ public class PlayerMovement : MonoBehaviour
                 human.Push();
             }
         }
-        else if ((Input.GetButtonDown("Submit") || Input.GetButtonDown("Fire1")) && attachedUsable != null)
+        else if (Input.GetButtonDown("Fire1") && attachedUsable != null)
         {
             attachedUsable.Use(this);
         }
