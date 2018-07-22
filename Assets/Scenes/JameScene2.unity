@@ -438,8 +438,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 137934066}
-  - component: {fileID: 137934068}
+  - component: {fileID: 137934069}
   - component: {fileID: 137934067}
+  - component: {fileID: 137934068}
   m_Layer: 0
   m_Name: KillZone
   m_TagString: Untagged
@@ -456,7 +457,7 @@ Transform:
   m_GameObject: {fileID: 137934065}
   m_LocalRotation: {x: -0, y: -1, z: -0, w: 0}
   m_LocalPosition: {x: -0.75, y: 0.375, z: 0}
-  m_LocalScale: {x: 2.934, y: 0.47926, z: 2.2224}
+  m_LocalScale: {x: 2.371683, y: 0.3926372, z: 1.7964649}
   m_Children: []
   m_Father: {fileID: 536948142}
   m_RootOrder: 16
@@ -477,8 +478,7 @@ BoxCollider:
 --- !u!114 &137934068
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 114240188355056286, guid: d76edcb6e4810914e9a06bfa8080b0bc,
-    type: 2}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 137934065}
   m_Enabled: 1
@@ -486,14 +486,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f88a9f0dab195d8438988baa7b4a07a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TriggeredByPlayer: 0
-  TriggeredByHumans: 1
+  TriggeredByPlayer: 1
+  TriggeredByHumans: 0
   OnEnter:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1717224789}
-        m_MethodName: AttachUsable
-        m_Mode: 0
+      - m_Target: {fileID: 137934069}
+        m_MethodName: RestartGame
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -506,20 +506,20 @@ MonoBehaviour:
       PublicKeyToken=null
   OnExit:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1717224789}
-        m_MethodName: DetachUsalbe
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: TriggerZone+TriggerEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
+--- !u!114 &137934069
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 137934065}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01301d61b9554cc4aace1ab43a5e09f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &170076733
 GameObject:
   m_ObjectHideFlags: 0
@@ -1084,7 +1084,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 536948141}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 8.5, y: -3.875, z: 0}
+  m_LocalPosition: {x: 8.5, y: -2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2106953498}
@@ -2277,12 +2277,6 @@ Transform:
   m_Father: {fileID: 1720860009}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1717224789 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 114035571746351586, guid: d76edcb6e4810914e9a06bfa8080b0bc,
-    type: 2}
-  m_PrefabInternal: {fileID: 4655073}
-  m_Script: {fileID: 11500000, guid: b2600fb51d3a5c943acb8628a8f2d9c9, type: 3}
 --- !u!1 &1720645434
 GameObject:
   m_ObjectHideFlags: 0
@@ -2435,7 +2429,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1841596478}
   m_LocalRotation: {x: -0, y: -1, z: -0, w: 0}
-  m_LocalPosition: {x: -4.25, y: 4.375, z: 0}
+  m_LocalPosition: {x: -4.25, y: 2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1720860009}
