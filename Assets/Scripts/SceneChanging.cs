@@ -171,7 +171,6 @@ public class SceneChanging : MonoBehaviour {
     {
         MenuMusicGenerator.Stop();
         VariableKeeper.menuState = 3;
-        SceneManager.UnloadSceneAsync(ActiveScene.buildIndex);
         VariableKeeper.levelProgression = VariableKeeper.levelProgression + 1;
         SceneManager.LoadScene(VariableKeeper.levelProgression);
     }

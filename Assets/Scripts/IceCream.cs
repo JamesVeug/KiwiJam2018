@@ -6,6 +6,10 @@ public class IceCream : MonoBehaviour
 {
     public void OnPickup()
     {
-        // Win! :D
+        var menuManager = GameObject.Find("MenuManager");
+        if (menuManager != null)
+        {
+            menuManager.GetComponent<SceneChanging>().NextGame();
+        }
     }
 }
