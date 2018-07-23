@@ -831,7 +831,6 @@ GameObject:
   - component: {fileID: 106452638}
   - component: {fileID: 106452642}
   - component: {fileID: 106452641}
-  - component: {fileID: 106452640}
   - component: {fileID: 106452639}
   m_Layer: 0
   m_Name: MainCamera
@@ -867,14 +866,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   profile: {fileID: 11400000, guid: 7c8844d2e500c49b8a6c0924055da24c, type: 2}
---- !u!81 &106452640
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 81795941990330798, guid: 0d2d1e97f9bf440b3bd9d749e37b6534,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 106452637}
-  m_Enabled: 1
 --- !u!124 &106452641
 Behaviour:
   m_ObjectHideFlags: 0
@@ -909,7 +900,7 @@ Camera:
   field of view: 60
   orthographic: 0
   orthographic size: 5
-  m_Depth: -1
+  m_Depth: 2
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -1454,6 +1445,11 @@ Prefab:
     - target: {fileID: 4181296461392180, guid: 06d4918a9b7f9ce419dcc563cf362f79, type: 2}
       propertyPath: m_RootOrder
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 20103647403819980, guid: 06d4918a9b7f9ce419dcc563cf362f79,
+        type: 2}
+      propertyPath: m_Depth
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 06d4918a9b7f9ce419dcc563cf362f79, type: 2}
