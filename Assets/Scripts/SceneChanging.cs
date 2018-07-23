@@ -29,6 +29,7 @@ public class SceneChanging : MonoBehaviour {
     public GameObject PanelLoseMenu;
     public GameObject PanelGameMenu;
     public GameObject PanelButtons;
+    public GameObject PanelCredits;
 
     private AudioSource MainMenuMusicPlayer;
     public GameObject MainMenuMusic;
@@ -212,8 +213,8 @@ public class SceneChanging : MonoBehaviour {
         }
         else if (Input.GetButtonDown("Credits"))
         {
-            MenuChanger();
-            //Credits();
+            //MenuChanger();
+            Credits();
         }
         else if (Input.GetButtonDown("Start"))
         {
@@ -245,6 +246,7 @@ public class SceneChanging : MonoBehaviour {
             PanelLoseMenu.SetActive(false);
             PanelGameMenu.SetActive(false);
             PanelButtons.SetActive(true);
+            PanelCredits.SetActive(false);
             MainMenuMusicPlayer.Play();
             PlayerMovement.MovementEnabled = false;
 
@@ -261,6 +263,7 @@ public class SceneChanging : MonoBehaviour {
             PanelLoseMenu.SetActive(false);
             PanelGameMenu.SetActive(false);
             PanelButtons.SetActive(true);
+            PanelCredits.SetActive(false);
             WinMenuMusicPlayer.Play();
             PlayerMovement.MovementEnabled = false;
 
@@ -277,6 +280,7 @@ public class SceneChanging : MonoBehaviour {
             PanelLoseMenu.SetActive(true);
             PanelGameMenu.SetActive(false);
             PanelButtons.SetActive(true);
+            PanelCredits.SetActive(false);
             LoseMenuMusicPlayer.Play();
             PlayerMovement.MovementEnabled = false;
 
@@ -295,7 +299,8 @@ public class SceneChanging : MonoBehaviour {
             PanelLoseMenu.SetActive(false);
             PanelGameMenu.SetActive(true);
             PanelButtons.SetActive(false);
-            if(VariableKeeper.levelProgression == 1)
+            PanelCredits.SetActive(false);
+            if (VariableKeeper.levelProgression == 1)
             {
                 Level1MusicPlayer.Play();
             } else
@@ -306,6 +311,24 @@ public class SceneChanging : MonoBehaviour {
 
 
             menuCharacters.gameObject.SetActive(false);
+        }
+
+        else if (VariableKeeper.menuState == 4)  // Credits
+        {
+            //Debug.Log("Lose Menu");
+            PanelMainMenu.SetActive(false);
+            PanelWinMenu.SetActive(false);
+            PanelLoseMenu.SetActive(true);
+            PanelGameMenu.SetActive(false);
+            PanelButtons.SetActive(true);
+            PanelCredits.SetActive(true);
+            LoseMenuMusicPlayer.Play();
+            PlayerMovement.MovementEnabled = false;
+
+            //menuCamera.gameObject.SetActive(true);
+            menuCharacters.gameObject.SetActive(false);
+            manMenuAnimator.SetTrigger("IntroAndWin");
+            girlMenuAnimator.SetTrigger("Lose");
         }
     }
 
@@ -346,7 +369,12 @@ public class SceneChanging : MonoBehaviour {
         SceneManager.LoadScene(VariableKeeper.levelStart);
         VariableKeeper.isIceCreamLicked = false;
     }
-    
+
+    public void Credits()
+    {
+        VariableKeeper.menuState = 4;
+    }
+
     //load scene from last play
     public void ContinueGame()
 	{
