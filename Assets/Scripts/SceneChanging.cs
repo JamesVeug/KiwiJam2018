@@ -318,7 +318,7 @@ public class SceneChanging : MonoBehaviour {
             //Debug.Log("Lose Menu");
             PanelMainMenu.SetActive(false);
             PanelWinMenu.SetActive(false);
-            PanelLoseMenu.SetActive(true);
+            PanelLoseMenu.SetActive(false);
             PanelGameMenu.SetActive(false);
             PanelButtons.SetActive(true);
             PanelCredits.SetActive(true);
@@ -334,21 +334,21 @@ public class SceneChanging : MonoBehaviour {
 
 
     //Debug to change menu
-    public void MenuChanger()
-    {
-        Debug.Log("The menu was " + VariableKeeper.menuState);
-        if (VariableKeeper.menuState == 2)
-        {
-            VariableKeeper.menuState = 0;
-            MenuPanelController();
-        }
-        else
-        {
-            VariableKeeper.menuState = VariableKeeper.menuState + 1;
-            MenuPanelController();
-        }
-        Debug.Log("The menu is "+VariableKeeper.menuState);
-    }
+    //public void MenuChanger()
+    //{
+    //    Debug.Log("The menu was " + VariableKeeper.menuState);
+    //    if (VariableKeeper.menuState == 2)
+    //    {
+    //        VariableKeeper.menuState = 0;
+    //        MenuPanelController();
+    //    }
+    //    else
+    //    {
+    //        VariableKeeper.menuState = VariableKeeper.menuState + 1;
+    //        MenuPanelController();
+    //    }
+    //    Debug.Log("The menu is "+VariableKeeper.menuState);
+    //}
     
     //load main menu
     public void ReturnToMenu()
@@ -372,6 +372,8 @@ public class SceneChanging : MonoBehaviour {
 
     public void Credits()
     {
+        StopAllAudio();
+        PlaySFXButtonPress();
         VariableKeeper.menuState = 4;
     }
 
@@ -392,6 +394,7 @@ public class SceneChanging : MonoBehaviour {
         StopAllAudio();
         VariableKeeper.menuState = 3;
         PlaySFXGirlWin();
+        Level2MusicPlayer.Play();
         VariableKeeper.levelProgression = VariableKeeper.levelProgression + 1;
         VariableKeeper.isIceCreamLicked = false;
         SceneManager.LoadScene(VariableKeeper.levelProgression);
